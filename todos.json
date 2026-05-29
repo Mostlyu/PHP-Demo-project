@@ -1,0 +1,16 @@
+[
+    {
+        "index": 1,
+        "title": "Workout",
+        "datum": "05.30.2026",
+        "description": "Do full body workout with kettlebell for an hour",
+        "status": "open"
+    },
+    {
+        "index": 2,
+        "title": "Grocery Shopping",
+        "datum": "30.05.2026",
+        "description": "Get - cheese, and water",
+        "status": "open"
+    }
+]

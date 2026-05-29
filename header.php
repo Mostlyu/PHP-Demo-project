@@ -6,6 +6,6 @@
     </head>
         <body>
             <h1>TODO App</h1>
-            <img src="images/todo-1.png" alt="TODO App Image">
+            <!-- <img src="images/todo-1.png" alt="TODO App Image"> -->
         </body>
 </html>
