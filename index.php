@@ -40,7 +40,7 @@
 </head>
 <body>
 
-    <h3>My TODOs</h3>
+    <h3>My ToDos</h3>
 
     <form method="post" action="">
         <h4>Title</h4>

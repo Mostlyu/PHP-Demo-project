@@ -20,21 +20,11 @@ tbody tr:hover {
 
 textarea.description {
     width: 25%;
-    min-height: 60px;
-    max-height: 300px;
+    height: 50px;
     padding: 10px;
-    font-family: 16px Arial, sans-serif;
     font-size: 16px;
+    font-family: Arial, sans-serif;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: vertical;
-    overflow-y: auto;
-    /* Text starts at upper left */
-    vertical-align: top;
-}
-
-textarea.description:focus {
-    border-color: #3498db;
-    outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }

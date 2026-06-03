@@ -22,13 +22,5 @@
         "due_date": "04.06.2026",
         "description": "Do Kettlebell workouts - full body, slow and cautious ",
         "status": "open"
-    },
-    {
-        "index": 4,
-        "created_at": "2026-06-03 13:09:26",
-        "title": "test",
-        "due_date": "06.062026",
-        "description": "roymosley@Roys-MacBook-Pro PHP-Demo-project % sudo sh -c 'echo \"export PATH=\\\"\/Applications\/XAMPP\/xamppfiles\/bin:\\$PATH\\\"\" >> ~\/.zshrc' Password: roymosley@Roys-MacBook-Pro PHP-Demo-project % source ~\/.zshrc roymosley@Roys-MacBook-Pro PHP-Demo-project % sudo lsof -i :80 roymosley@Roys-MacBook-Pro PHP-Demo-project % ",
-        "status": "complete"
     }
 ]
