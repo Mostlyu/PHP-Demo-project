@@ -20,7 +20,7 @@
         return 'complete';
     }
 
-    function addTodo($title, $datum, $description, $isOpen = true) {
+    function addTodo($title, $dueDate,$description, $isOpen = true) {
     $todos = loadTodos();
 
     $highest = 0;
@@ -29,20 +29,23 @@
             $highest = $todo['index'];
         }
     }
+    $createdAt = date('Y-m-d H:i:s');
     $newIndex = $highest + 1;
 
     $todos[] = [
         'index'       => $newIndex,
+        'created_at'  => $createdAt,
         'title'       => $title,
-        'datum'       => $datum,
+        'due_date'       => $dueDate,
         'description' => $description,
         'status'      => statusToString($isOpen),
     ];
 
     saveTodos($todos);
-}
 
-    function deleteTodo(int $index): bool {
+    }
+
+    function deleteTodo(int $index) {
         $todos = loadTodos();
         $arr = [];
         foreach ($todos as $todo) {

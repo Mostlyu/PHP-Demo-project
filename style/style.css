@@ -1,0 +1,40 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    color: #555;
+}
+
+thead {
+    background: #f4f4f4;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+}
+
+textarea.description {
+    width: 25%;
+    min-height: 60px;
+    max-height: 300px;
+    padding: 10px;
+    font-family: 16px Arial, sans-serif;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    overflow-y: auto;
+    /* Text starts at upper left */
+    vertical-align: top;
+}
+
+textarea.description:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}

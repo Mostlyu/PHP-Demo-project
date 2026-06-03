@@ -1,16 +1,34 @@
 [
     {
         "index": 1,
-        "title": "Workout",
-        "datum": "05.30.2026",
-        "description": "Do full body workout with kettlebell for an hour",
-        "status": "open"
+        "created_at": "2026-06-02 09:50:04",
+        "title": "test",
+        "due_date": "06.062026",
+        "description": "test",
+        "status": "complete"
     },
     {
         "index": 2,
-        "title": "Grocery Shopping",
-        "datum": "30.05.2026",
-        "description": "Get - cheese, and water",
+        "created_at": "2026-06-02 10:42:41",
+        "title": "test1",
+        "due_date": "06.062026",
+        "description": "teste",
+        "status": "complete"
+    },
+    {
+        "index": 3,
+        "created_at": "2026-06-03 13:09:09",
+        "title": "Workout",
+        "due_date": "04.06.2026",
+        "description": "Do Kettlebell workouts - full body, slow and cautious ",
         "status": "open"
+    },
+    {
+        "index": 4,
+        "created_at": "2026-06-03 13:09:26",
+        "title": "test",
+        "due_date": "06.062026",
+        "description": "roymosley@Roys-MacBook-Pro PHP-Demo-project % sudo sh -c 'echo \"export PATH=\\\"\/Applications\/XAMPP\/xamppfiles\/bin:\\$PATH\\\"\" >> ~\/.zshrc' Password: roymosley@Roys-MacBook-Pro PHP-Demo-project % source ~\/.zshrc roymosley@Roys-MacBook-Pro PHP-Demo-project % sudo lsof -i :80 roymosley@Roys-MacBook-Pro PHP-Demo-project % ",
+        "status": "complete"
     }
 ]

@@ -5,7 +5,7 @@
     <body>
         <footer>
             <p>&copy; 2026 TODO App. All rights reserved.</p>
-            <img src="images/todo-2.png" alt="TODO App Image">
+            <!--<img src="images/todo-2.png" alt="TODO App Image"> -->
         </footer>
     </body>
 </html>
