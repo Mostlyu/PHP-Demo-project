@@ -58,10 +58,9 @@
 
     }
 
-    function filterTodos($isOpen) {
+    function filterTodos(string $status) {
         $todos = loadTodos();
         $filter = [];
-        $status = statusToString($isOpen);
 
         foreach ($todos as $todo) {
             if ($todo['status'] == $status) {

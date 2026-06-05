@@ -16,8 +16,8 @@
         exit;
     }
 
-    if (isset($_POST['filter'])) {
-        $todos = filterTodos($_POST['filter']);
+    if (isset($_GET['filter']) && $_GET['filter'] !== 'all') {
+        $todos = filterTodos($_GET['filter']);
     } else {
         $todos = loadTodos();
     }
@@ -56,7 +56,19 @@
     </form>
 
     <h2>Current TODOs</h2>
-    <?php $todos = loadTodos(); ?>
+
+    <form method="get" action="">
+                    <input type="hidden" name="filter" value="complete">
+                    <button type="submit">Show Complete</button>
+        </form>
+        <form method="get" action="">
+                    <input type="hidden" name="filter" value="open">
+                    <button type="submit">Show Open</button>
+        </form>
+        <form method="get" action="">
+                    <input type="hidden" name="filter" value="all">
+                    <button type="submit">Show All</button>
+        </form>
 
 <table>
     <thead>
@@ -91,16 +103,11 @@
                     <input type="hidden" name="current_status" value="<?= $todo['status'] ?>">
                     <button type="submit"><?= $todo['status'] === 'open' ? 'Mark Complete' : 'Mark Open' ?></button>
                 </form>
-                <form method="post" action="">
-                    <input type="hidden" name="filter" value="<?= $todo['status'] ?>">
-                    <button type="submit">Filter <?= $todo['status'] ?></button>
-                </form>
             </td>
         </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
-
 </body>
 </html>
 
