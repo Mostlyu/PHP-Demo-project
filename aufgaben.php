@@ -1,16 +1,28 @@
 <?php
+    const TODO_FILE = 'todos.json';
 
     function loadTodos(): array {
-        if (!file_exists('todos.json')) {
+        if (!file_exists(TODO_FILE)) {
             return [];
         }
-        $contents = file_get_contents('todos.json');
+        $contents = file_get_contents(TODO_FILE);
+        if ($contents === false) {
+            return [];
+        }
         $todos = json_decode($contents, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            error_log("JSON decode error: " . json_last_error_msg());
+            return [];
+        }
         return is_array($todos) ? $todos : [];
     }
 
-    function saveTodos(array $todos) {
-        file_put_contents('todos.json', json_encode($todos, JSON_PRETTY_PRINT));
+    function saveTodos(array $todos): bool{
+        if(file_put_contents(TODO_FILE, json_encode($todos, JSON_PRETTY_PRINT), LOCK_EX) === false) {
+            error_log('Failed to save todos');
+            return false;
+        }
+        return true;
     }
 
     function statusToString($isOpen) {
@@ -80,6 +92,11 @@
                 return;
             }
         }
+    }
+
+    function check_date($input) {
+        $date = DateTime::createFromFormat('Y-m-d', $input);
+        return $date && $date->format('Y-m-d') === $input;
     }
 
 ?>

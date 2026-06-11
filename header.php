@@ -5,7 +5,8 @@
         <title>TODO App</title>
     </head>
         <body>
-            <h1>TODO App</h1>
-            <!--<img src="images/todo-1.png" alt="TODO App Image" width="1300" height="100"> -->
+            <header>
+                <h1>TODO App</h1>
+            </header>
         </body>
 </html>

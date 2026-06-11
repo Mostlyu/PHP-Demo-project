@@ -5,6 +5,9 @@
     include 'aufgaben.php';
 
     include 'header.php';
+
+    $errors = [];
+
     if (isset($_POST['title']) && isset($_POST['due_date']) && isset($_POST['description'])) {
         addTodo($_POST['title'], $_POST['due_date'], $_POST['description']);
         header("Location: index.php");
@@ -24,9 +27,37 @@
 
     if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
         $newStatus = ($_POST['current_status'] === 'open') ? false : true;
-        setstatus((int) $_POST['index'], $newStatus);
+        setStatus((int) $_POST['index'], $newStatus);
         header('Location: index.php');
         exit;
+    }
+
+    if (isset($_POST['due_date']) && !check_date($_POST['due_date'])) {
+        $error['due_date'] = 'Invalid date';
+        header("Location: index.php");
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
+        $title = trim($_POST['title'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $due_date = $_POST['due_date'] ?? '';
+
+        if ($title === '') {
+            $errors[] = 'Titel darf nicht leer sein.';
+        }
+        if ($description === '') {
+            $errors[] = 'Beschreibung darf nicht leer sein.';
+        }
+        if (!check_date($due_date)) {
+            $errors[] = 'Ungültiges Datum.';
+        }
+
+        if (empty($errors)) {
+            addTodo($title, $description, $due_date);
+            header('Location: index.php');
+            exit;
+        }
     }
 
 ?>
@@ -42,12 +73,21 @@
 
     <h3>My ToDos</h3>
 
-    <form method="post" action="">
+    <?php if (!empty($errors)): ?>
+        <ul class="errors">
+            <?php foreach ($errors as $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <input type="hidden" name="action" value="add">
         <h4>Title</h4>
-        <input name="title" placeholder="Title of your ToDo?" required>
+        <input name="title" value="<?= htmlspecialchars($_POST['title'] ?? '') ?>" placeholder="Title of your ToDo?" required>
 
         <h4>Due Date</h4>
-        <input name="due_date" placeholder="The due date of your ToDo?" required>
+        <input type="date" name="due_date" value="<?= htmlspecialchars($_POST['due_date'] ?? '') ?>" placeholder="The due date of your ToDo?" required>
 
         <h4>Description</h4>
         <textarea name="description" class="description" placeholder="Description of your ToDo?" required></textarea>
