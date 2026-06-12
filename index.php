@@ -3,20 +3,18 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     include 'aufgaben.php';
-
+    include 'handler.php';
     include 'header.php';
 
     $errors = [];
 
-    if (isset($_POST['title']) && isset($_POST['due_date']) && isset($_POST['description'])) {
-        addTodo($_POST['title'], $_POST['due_date'], $_POST['description']);
-        header("Location: index.php");
-        exit;
-    }
+    // if (isset($_POST['title']) && isset($_POST['due_date']) && isset($_POST['description'])) {
+    //     addTodo($_POST['title'], $_POST['due_date'], $_POST['description']);
+    //     header("Location: index.php");
+    //     exit;
+    // }
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
-        deleteTodo((int) $_POST['index']);
-        header('Location: index.php');
-        exit;
+        handleDeleteTodo();
     }
 
     if (isset($_GET['filter']) && $_GET['filter'] !== 'all') {
@@ -26,39 +24,20 @@
     }
 
     if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
-        $newStatus = ($_POST['current_status'] === 'open') ? false : true;
-        setStatus((int) $_POST['index'], $newStatus);
-        header('Location: index.php');
-        exit;
+        handleToggleStatus();
     }
 
     if (isset($_POST['due_date']) && !check_date($_POST['due_date'])) {
-        $error['due_date'] = 'Invalid date';
+        $errors['due_date'] = 'Invalid date';
         header("Location: index.php");
         exit;
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
-        $title = trim($_POST['title'] ?? '');
-        $description = trim($_POST['description'] ?? '');
-        $due_date = $_POST['due_date'] ?? '';
-
-        if ($title === '') {
-            $errors[] = 'Titel darf nicht leer sein.';
-        }
-        if ($description === '') {
-            $errors[] = 'Beschreibung darf nicht leer sein.';
-        }
-        if (!check_date($due_date)) {
-            $errors[] = 'Ungültiges Datum.';
-        }
-
-        if (empty($errors)) {
-            addTodo($title, $description, $due_date);
-            header('Location: index.php');
-            exit;
-        }
+        handleCreateTodo();
     }
+
+
 
 ?>
 
@@ -71,7 +50,7 @@
 </head>
 <body>
 
-    <h3>My ToDos</h3>
+    <h3>Write your ToDos </h3>
 
     <?php if (!empty($errors)): ?>
         <ul class="errors">
@@ -95,7 +74,7 @@
         <button type="submit">Add ToDo</button>
     </form>
 
-    <h2>Current TODOs</h2>
+    <h2>My TODOs</h2>
 
     <form method="get" action="">
                     <input type="hidden" name="filter" value="complete">
