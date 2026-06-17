@@ -1,6 +1,6 @@
 <?php
 
-include 'JsonDataStore.php';
+require_once 'JsonDataStore.php';
 
 class ToDoItem {
 
@@ -22,8 +22,6 @@ class ToDoItem {
         string $description,
         ToDoItemStatus $status) {
 
-        $this->index = JsonDataStore::getLatestIndex() + 1;
-        $this->created_at = self::now();
         $this->title = $title;
         $this->due_date = $due_date;
         $this->description = $description;
@@ -31,24 +29,23 @@ class ToDoItem {
     }
 
     public static function fromArray(array $data): ToDoItem {
-        return new ToDoItem(
-            // $data['index'],
-            // $data['created_at'],
+        $item = new ToDoItem(
             $data['title'],
             $data['due_date'],
             $data['description'],
             ToDoItemStatus::from($data['status'])
         );
+        $item->created_at = $data['created_at'];
+        $item->index = $data['index'];
+        return $item;
     }
 
     public function toArray(): array
     {
         return [
-            'index' => $this->index,
             'title' => $this->title,
             'description' => $this->description,
             'due_date' => $this->due_date,
-            'created_at' => $this->created_at,
             'status' => $this->status->value
         ];
     }

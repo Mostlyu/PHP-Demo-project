@@ -1,4 +1,7 @@
 <?php
+    // include 'JsonDataStore.php';
+    // include 'aufgaben.php';
+    // include 'ToDoItem.php';
 
 
     function handleDeleteTodo(): void {
@@ -15,9 +18,6 @@
 
         if ($title === '') {
             $errors[] = 'Title darf nicht leer sein.';
-        }
-        if (!check_date($due_date)) {
-            $errors[] = 'Ungültiges Datum.';
         }
         if ($description === '') {
             $errors[] = 'Beschreibung darf nicht leer sein.';

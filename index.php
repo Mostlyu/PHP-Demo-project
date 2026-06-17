@@ -23,7 +23,7 @@
         handleToggleStatus();
     }
 
-    if (isset($_POST['due_date']) && !check_date($_POST['due_date'])) {
+    if (isset($_POST['due_date'])) {
         $errors['due_date'] = 'Invalid date';
         header("Location: index.php");
         exit;

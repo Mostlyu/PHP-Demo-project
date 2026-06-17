@@ -1,7 +1,7 @@
 <?php
 
-    require_once 'ToDoItem.php';
-    require_once 'ToDoItemStatus.php';
+    include 'ToDoItem.php';
+    include 'ToDoItemStatus.php';
     require_once 'JsonDataStore.php';
 
 
@@ -128,9 +128,9 @@
      * @param string $input The input string to validate as a date.
      * @return true if the input is a valid date in the format YYYY-MM-DD, false otherwise.
      */
-    function check_date(string $input): bool {
-        $date = DateTime::createFromFormat('Y-m-d', $input);
-        return $date && $date->format('Y-m-d') === $input;
-    }
+    // function check_date(string $input): bool {
+    //     $date = DateTime::createFromFormat('Y-m-d', $input);
+    //     return $date && $date->format('Y-m-d') === $input;
+    // }
 
 ?>

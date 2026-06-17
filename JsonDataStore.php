@@ -35,8 +35,15 @@ class JsonDataStore {
         echo "saving";
 
         $rawToDos = [];
+
+        /* @var $todos array */
         foreach ($todos as $todo) {
-             $rawToDos[] = $todo->toArray();
+
+            $toDoItemToStore = $todo->toArray();
+            $toDoItemToStore['index'] = self::getLatestIndex() + 1;
+            $toDoItemToStore['created_at'] = date('Y-m-d H:i:s');
+
+             $rawToDos[] = $toDoItemToStore;
          }
 
         if(file_put_contents(self::TODO_FILE, json_encode($rawToDos, JSON_PRETTY_PRINT), LOCK_EX) === false) {
@@ -46,7 +53,7 @@ class JsonDataStore {
         return true;
     }
 
-    public static function getLatestIndex(): int {
+    private static function getLatestIndex(): int {
         $highest = 0;
 
         $todos = self::loadTodos();
