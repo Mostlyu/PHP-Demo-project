@@ -32,9 +32,8 @@ class JsonDataStore {
 
         var_dump($todos);
 
-        echo "saving";
-
         $rawToDos = [];
+        //echo "saving";
 
         /* @var $todos array */
         foreach ($todos as $todo) {

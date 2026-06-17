@@ -10,7 +10,6 @@
 
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
         handleDeleteTodo();
-        var_dump($_POST);
     }
 
     $statusFilter = null;
@@ -23,14 +22,10 @@
         handleToggleStatus();
     }
 
-    if (isset($_POST['due_date'])) {
-        $errors['due_date'] = 'Invalid date';
-        header("Location: index.php");
-        exit;
-    }
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
         handleCreateTodo();
+        header("Location: index.php");
+        exit;
     }
 
 ?>

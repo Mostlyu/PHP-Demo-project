@@ -1,7 +1,8 @@
 <?php
-    // include 'JsonDataStore.php';
-    // include 'aufgaben.php';
-    // include 'ToDoItem.php';
+    require_once 'JsonDataStore.php';
+    require_once 'aufgaben.php';
+    require_once 'ToDoItem.php';
+    require_once 'index.php';
 
 
     function handleDeleteTodo(): void {
