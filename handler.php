@@ -24,7 +24,7 @@
         }
         if (empty($errors)) {
             addTodo($title, $due_date, $description);
-            header('Location: index.php');
+            //header('Location: index.php');
             exit;
         }
     }
