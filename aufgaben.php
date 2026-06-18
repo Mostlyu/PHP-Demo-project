@@ -1,64 +1,74 @@
 <?php
-    const TODO_FILE = 'todos.json';
 
-    function loadTodos(): array {
-        if (!file_exists(TODO_FILE)) {
-            return [];
-        }
-        $contents = file_get_contents(TODO_FILE);
-        if ($contents === false) {
-            return [];
-        }
-        $todos = json_decode($contents, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            error_log("JSON decode error: " . json_last_error_msg());
-            return [];
-        }
-        return is_array($todos) ? $todos : [];
-    }
+    include 'ToDoItem.php';
+    include 'ToDoItemStatus.php';
+    require_once 'JsonDataStore.php';
 
-    function saveTodos(array $todos): bool{
-        if(file_put_contents(TODO_FILE, json_encode($todos, JSON_PRETTY_PRINT), LOCK_EX) === false) {
-            error_log('Failed to save todos');
-            return false;
-        }
-        return true;
-    }
 
-    function statusToString($isOpen) {
+    // const TODO_FILE = 'todos.json';
+
+    // function loadTodos(): array {
+    //     if (!file_exists(TODO_FILE)) {
+    //         return [];
+    //     }
+    //     $contents = file_get_contents(TODO_FILE);
+    //     if ($contents === false) {
+    //         return [];
+    //     }
+
+    //     $rawToDos = json_decode($contents, true);
+    //     foreach ($rawToDos as $rawToDo) {
+    //         $todos[] = ToDoItem::fromArray($rawToDo);
+    //     }
+
+    //     if (json_last_error() !== JSON_ERROR_NONE) {
+    //         error_log("JSON decode error: " . json_last_error_msg());
+    //         return [];
+    //     }
+    //     return $todos ?? [];
+    // }
+
+    // function saveTodos(array $todos): bool{
+    //     if(file_put_contents(TODO_FILE, json_encode($todos, JSON_PRETTY_PRINT), LOCK_EX) === false) {
+    //         error_log('Failed to save todos');
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
+
+    function statusToString(bool $isOpen): string {
         if ($isOpen) {
             return 'open';
         }
         return 'complete';
     }
 
-    function addTodo($title, $dueDate,$description, $isOpen = true) {
-    $todos = loadTodos();
+    function addTodo(
+        string $title,
+        string $dueDate,
+        string $description,
 
-    $highest = 0;
-    foreach ($todos as $todo) {
-        if ($todo['index'] > $highest) {
-            $highest = $todo['index'];
-        }
-    }
-    $createdAt = date('Y-m-d H:i:s');
-    $newIndex = $highest + 1;
+        ToDoItemStatus $status = ToDoItemStatus::OPEN) {
 
-    $todos[] = [
-        'index'       => $newIndex,
-        'created_at'  => $createdAt,
-        'title'       => $title,
-        'due_date'       => $dueDate,
-        'description' => $description,
-        'status'      => statusToString($isOpen),
-    ];
+        $todos = JsonDataStore::loadTodos();
 
-    saveTodos($todos);
+        $newTodo = new ToDoItem(
+            $title,
+            $dueDate,
+            $description,
+            $status
+        );
 
+        echo "item created";
+
+        $todos[] = $newTodo;
+        // var_dump($newTodo);
+        JsonDataStore::saveTodos($todos);
     }
 
     function deleteTodo(int $index) {
-        $todos = loadTodos();
+        $todos = JsonDataStore::loadTodos();
         $arr = [];
         foreach ($todos as $todo) {
             if ($todo['index'] != $index) {
@@ -66,37 +76,60 @@
             }
         }
 
-        saveTodos($arr);
+        JsonDataStore::saveTodos($arr);
 
     }
 
-    function filterTodos(string $status) {
-        $todos = loadTodos();
-        $filter = [];
+    /**
+     * Filters todos by status.
+     * @return array<ToDoItem> of todos filtered by status. If status is empty, returns all todos.
+     */
+    function filterTodos(string|null $statusFilter): array {
+        $allTodoItems = JsonDataStore::loadTodos();
+        $filteredTodoItems = [];
 
-        foreach ($todos as $todo) {
-            if ($todo['status'] == $status) {
-                $filter[] = $todo;
+        // what if filter is empty?
+        if (empty($statusFilter) || $statusFilter === 'all') {
+            return $allTodoItems;
+        }
+
+        foreach ($allTodoItems as $todo) {
+            if ($todo['status'] == $statusFilter) {
+                $filteredTodoItems[] = $todo;
             }
         }
-        return $filter;
+        return $filteredTodoItems;
     }
 
-    function setStatus($index, $isOpen) {
-        $todos = loadTodos();
+    function setStatus(int $index, bool $isOpen) {
+        $todos = JsonDataStore::loadTodos();
 
-        foreach ($todos as $key => $todo) {
-            if ($todo['index'] == $index) {
-                $todos[$key]['status'] = statusToString($isOpen);
-                saveTodos($todos);
-                return;
+        try
+        {
+            foreach ($todos as $key => $todo) {
+                if ($todo['index'] == $index) {
+
+
+
+                    $todos[$key]['status'] = statusToString($isOpen);
+                    JsonDataStore::saveTodos($todos);
+                    return;
+                }
             }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return;
         }
+
     }
 
-    function check_date($input) {
-        $date = DateTime::createFromFormat('Y-m-d', $input);
-        return $date && $date->format('Y-m-d') === $input;
-    }
+    /**
+     * @param string $input The input string to validate as a date.
+     * @return true if the input is a valid date in the format YYYY-MM-DD, false otherwise.
+     */
+    // function check_date(string $input): bool {
+    //     $date = DateTime::createFromFormat('Y-m-d', $input);
+    //     return $date && $date->format('Y-m-d') === $input;
+    // }
 
 ?>

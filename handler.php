@@ -1,4 +1,7 @@
 <?php
+    require_once 'JsonDataStore.php';
+    require_once 'aufgaben.php';
+    require_once 'ToDoItem.php';
 
 
     function handleDeleteTodo(): void {
@@ -16,16 +19,13 @@
         if ($title === '') {
             $errors[] = 'Title darf nicht leer sein.';
         }
-        if (!check_date($due_date)) {
-            $errors[] = 'Ungültiges Datum.';
-        }
         if ($description === '') {
             $errors[] = 'Beschreibung darf nicht leer sein.';
         }
         if (empty($errors)) {
             addTodo($title, $due_date, $description);
-            header('Location: index.php');
-            exit;
+            //header('Location: index.php');
+            ;
         }
     }
 

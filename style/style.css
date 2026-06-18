@@ -3,6 +3,13 @@ table {
     width: 100%;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    color: #333;
+    padding: 20px;
+}
+
 th, td {
     border: 1px solid #ccc;
     padding: 8px;
@@ -16,6 +23,32 @@ thead {
 
 tbody tr:hover {
     background: #fafafa;
+}
+
+.action-filters {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.todo-form {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    background: #ccc;
+    padding: 15px 20px;
+}
+
+button {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.submit-button {
+    background: #28a745;
 }
 
 textarea.description {
