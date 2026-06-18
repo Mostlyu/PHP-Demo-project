@@ -50,9 +50,6 @@ class ToDoItem {
         ];
     }
 
-    public function setStatus(ToDoItemStatus $status) {
-        $this->status = $status;
-    }
 }
 
 

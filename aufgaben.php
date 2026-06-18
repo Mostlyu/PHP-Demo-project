@@ -71,7 +71,7 @@
         $todos = JsonDataStore::loadTodos();
         $arr = [];
         foreach ($todos as $todo) {
-            if ($todo['index'] != $index) {
+            if ($todo-> index != $index) {
                 $arr[] = $todo;
             }
         }
@@ -94,7 +94,7 @@
         }
 
         foreach ($allTodoItems as $todo) {
-            if ($todo['status'] == $statusFilter) {
+            if ($todo->status->value == $statusFilter) {
                 $filteredTodoItems[] = $todo;
             }
         }
@@ -106,16 +106,23 @@
 
         try
         {
-            foreach ($todos as $key => $todo) {
-                if ($todo['index'] == $index) {
+            // foreach ($todos as $key => $todo) {
+            //     if ($todo['index'] == $index) {
 
 
 
-                    $todos[$key]['status'] = statusToString($isOpen);
+            //         $todos[$key]['status'] = statusToString($isOpen);
+            //         JsonDataStore::saveTodos($todos);
+            //         return;
+            //     }
+            // }
+            foreach ($todos as $todo) {
+                if ($todo->index == $index) {
+                    $todo->setStatus($isOpen ? ToDoItemStatus::OPEN : ToDoItemStatus::COMPLETE);
                     JsonDataStore::saveTodos($todos);
                     return;
-                }
-            }
+    }
+}
         } catch (Exception $e) {
             error_log($e->getMessage());
             return;

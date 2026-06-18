@@ -15,6 +15,7 @@
         $title = trim($_POST['title'] ?? '');
         $due_date = $_POST['due_date'] ?? '';
         $description = trim($_POST['description'] ?? '');
+        $errors = [];
 
         if ($title === '') {
             $errors[] = 'Title darf nicht leer sein.';

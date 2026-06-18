@@ -59,7 +59,7 @@
         <input type="datetime-local" name="due_date" value="<?= htmlspecialchars($_POST['due_date'] ?? '') ?>" placeholder="The due date of your ToDo?" required>
 
         <h4>Description</h4>
-        <textarea name="description" class="description" placeholder="Description of your ToDo?" required></textarea>
+        <textarea name="description" value="<?= htmlspecialchars($_POST['description'] ?? '') ?>" class="description" placeholder="Description of your ToDo?" required></textarea>
 
         <button type="submit" class="submit-button">Add ToDo</button>
     </form>
@@ -81,9 +81,6 @@
                         <input type="hidden" name="filter" value="all">
                         <button type="submit">Show All</button>
             </form>
-            <form method="post" action="">
-                        <input type="hidden" name="action" value="">
-                        <button type="submit">Clear All</button>
         </div>
     </form>
 
