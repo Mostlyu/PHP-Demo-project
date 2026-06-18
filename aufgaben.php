@@ -48,11 +48,10 @@
         string $title,
         string $dueDate,
         string $description,
+
         ToDoItemStatus $status = ToDoItemStatus::OPEN) {
 
-        echo "adding todo";
-
-        $todos = [];
+        $todos = JsonDataStore::loadTodos();
 
         $newTodo = new ToDoItem(
             $title,
@@ -64,7 +63,7 @@
         echo "item created";
 
         $todos[] = $newTodo;
-        var_dump($newTodo);
+        // var_dump($newTodo);
         JsonDataStore::saveTodos($todos);
     }
 

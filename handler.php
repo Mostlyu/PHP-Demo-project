@@ -2,7 +2,6 @@
     require_once 'JsonDataStore.php';
     require_once 'aufgaben.php';
     require_once 'ToDoItem.php';
-    require_once 'index.php';
 
 
     function handleDeleteTodo(): void {
@@ -26,7 +25,7 @@
         if (empty($errors)) {
             addTodo($title, $due_date, $description);
             //header('Location: index.php');
-            exit;
+            ;
         }
     }
 

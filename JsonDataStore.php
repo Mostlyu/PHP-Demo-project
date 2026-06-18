@@ -30,7 +30,7 @@ class JsonDataStore {
 
     public static function saveTodos(array $todos): bool{
 
-        var_dump($todos);
+        // var_dump($todos);
 
         $rawToDos = [];
         //echo "saving";
@@ -39,8 +39,13 @@ class JsonDataStore {
         foreach ($todos as $todo) {
 
             $toDoItemToStore = $todo->toArray();
+            if (!isset($todo->index)) {
             $toDoItemToStore['index'] = self::getLatestIndex() + 1;
             $toDoItemToStore['created_at'] = date('Y-m-d H:i:s');
+            } else {
+                $toDoItemToStore['index'] = $todo -> index;
+                $toDoItemToStore['created_at'] = $todo -> created_at;
+            }
 
              $rawToDos[] = $toDoItemToStore;
          }
