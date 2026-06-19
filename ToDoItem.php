@@ -11,10 +11,10 @@ class ToDoItem {
     public string $description;
     public ToDoItemStatus $status;
 
-    //TODO now() for created_at
-     private static function now(): string {
-         return date('Y-m-d H:i:s');
-     }
+  //TODO now() for created_at
+      private static function now(): string {
+          return date('Y-m-d H:i:s');
+      }
 
     public function __construct(
         string $title,
@@ -26,6 +26,7 @@ class ToDoItem {
         $this->due_date = $due_date;
         $this->description = $description;
         $this->status = $status;
+        $this->created_at  = self::now();
     }
 
     public static function fromArray(array $data): ToDoItem {
@@ -46,7 +47,9 @@ class ToDoItem {
             'title' => $this->title,
             'description' => $this->description,
             'due_date' => $this->due_date,
-            'status' => $this->status->value
+            'status' => $this->status->value,
+            // 'created_at' => $this->created_at,
+            // 'index'=> $this->index
         ];
     }
 

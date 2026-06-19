@@ -4,45 +4,12 @@
     include 'ToDoItemStatus.php';
     require_once 'JsonDataStore.php';
 
-
-    // const TODO_FILE = 'todos.json';
-
-    // function loadTodos(): array {
-    //     if (!file_exists(TODO_FILE)) {
-    //         return [];
+    // function statusToString(ToDoItemStatus $status = ToDoItemStatus::OPEN): string {
+    //     if ($status) {
+    //         return 'open';
     //     }
-    //     $contents = file_get_contents(TODO_FILE);
-    //     if ($contents === false) {
-    //         return [];
-    //     }
-
-    //     $rawToDos = json_decode($contents, true);
-    //     foreach ($rawToDos as $rawToDo) {
-    //         $todos[] = ToDoItem::fromArray($rawToDo);
-    //     }
-
-    //     if (json_last_error() !== JSON_ERROR_NONE) {
-    //         error_log("JSON decode error: " . json_last_error_msg());
-    //         return [];
-    //     }
-    //     return $todos ?? [];
+    //     return 'complete';
     // }
-
-    // function saveTodos(array $todos): bool{
-    //     if(file_put_contents(TODO_FILE, json_encode($todos, JSON_PRETTY_PRINT), LOCK_EX) === false) {
-    //         error_log('Failed to save todos');
-    //         return false;
-    //     }
-    //     return true;
-    // }
-
-
-    function statusToString(bool $isOpen): string {
-        if ($isOpen) {
-            return 'open';
-        }
-        return 'complete';
-    }
 
     function addTodo(
         string $title,
@@ -60,10 +27,8 @@
             $status
         );
 
-        echo "item created";
-
         $todos[] = $newTodo;
-        // var_dump($newTodo);
+
         JsonDataStore::saveTodos($todos);
     }
 
@@ -106,19 +71,10 @@
 
         try
         {
-            // foreach ($todos as $key => $todo) {
-            //     if ($todo['index'] == $index) {
 
-
-
-            //         $todos[$key]['status'] = statusToString($isOpen);
-            //         JsonDataStore::saveTodos($todos);
-            //         return;
-            //     }
-            // }
             foreach ($todos as $todo) {
                 if ($todo->index == $index) {
-                    $todo->setStatus($isOpen ? ToDoItemStatus::OPEN : ToDoItemStatus::COMPLETE);
+                    $todo->status = $isOpen ? ToDoItemStatus::OPEN : ToDoItemStatus::COMPLETE;
                     JsonDataStore::saveTodos($todos);
                     return;
     }
