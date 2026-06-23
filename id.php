@@ -24,7 +24,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
         handleCreateTodo();
-        header("Location: index.php");
+        header("Location: id.php");
         exit;
     }
 
@@ -99,7 +99,7 @@
     <tbody>
         <?php foreach ($todos as $todo): ?>
         <tr>
-            <td><?= htmlspecialchars($todo->index) ?></td>
+            <td><?= htmlspecialchars($todo->id) ?></td>
             <td><?= htmlspecialchars($todo->title) ?></td>
             <td><?= htmlspecialchars($todo->description) ?></td>
             <td><?= htmlspecialchars($todo->due_date) ?></td>
@@ -108,12 +108,12 @@
             <td>
                 <form method="post" action="">
                     <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="index" value="<?= $todo->index ?>">
+                    <input type="hidden" name="id" value="<?= $todo->id ?>">
                     <button type="submit">Delete</button>
                 </form>
                 <form method="post" action="">
                     <input type="hidden" name="action" value="toggle_status">
-                    <input type="hidden" name="index" value="<?= $todo->index ?>">
+                    <input type="hidden" name="id" value="<?= $todo->id ?>">
                     <input type="hidden" name="current_status" value="<?= $todo->status->value ?>">
                     <button type="submit"><?= $todo->status === ToDoItemStatus::OPEN ? 'Mark Complete' : 'Mark Open' ?></button>
                 </form>

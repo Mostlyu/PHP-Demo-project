@@ -4,7 +4,7 @@ require_once 'JsonDataStore.php';
 
 class ToDoItem {
 
-    public int $index;
+    public int $id;
     public string $created_at;
     public string $title;
     public string $due_date;
@@ -37,19 +37,19 @@ class ToDoItem {
             ToDoItemStatus::from($data['status'])
         );
         $item->created_at = $data['created_at'];
-        $item->index = $data['index'];
+        $item->id = $data['id'];
         return $item;
     }
 
     public function toArray(): array
     {
         return [
-            'title' => $this->title,
+            'id'          => $this->id,
+            'created_at'  => $this->created_at,
+            'title'       => $this->title,
             'description' => $this->description,
-            'due_date' => $this->due_date,
-            'status' => $this->status->value,
-            // 'created_at' => $this->created_at,
-            // 'index'=> $this->index
+            'due_date'    => $this->due_date,
+            'status'      => $this->status->value,
         ];
     }
 

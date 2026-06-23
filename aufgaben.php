@@ -4,13 +4,6 @@
     include 'ToDoItemStatus.php';
     require_once 'JsonDataStore.php';
 
-    // function statusToString(ToDoItemStatus $status = ToDoItemStatus::OPEN): string {
-    //     if ($status) {
-    //         return 'open';
-    //     }
-    //     return 'complete';
-    // }
-
     function addTodo(
         string $title,
         string $dueDate,
@@ -27,16 +20,18 @@
             $status
         );
 
+        $newTodo->id = JsonDataStore::getNextId();
+
         $todos[] = $newTodo;
 
         JsonDataStore::saveTodos($todos);
     }
 
-    function deleteTodo(int $index) {
+    function deleteTodo(int $id) {
         $todos = JsonDataStore::loadTodos();
         $arr = [];
         foreach ($todos as $todo) {
-            if ($todo-> index != $index) {
+            if ($todo-> id != $id) {
                 $arr[] = $todo;
             }
         }
@@ -66,14 +61,14 @@
         return $filteredTodoItems;
     }
 
-    function setStatus(int $index, bool $isOpen) {
+    function setStatus(int $id, bool $isOpen) {
         $todos = JsonDataStore::loadTodos();
 
         try
         {
 
             foreach ($todos as $todo) {
-                if ($todo->index == $index) {
+                if ($todo->id == $id) {
                     $todo->status = $isOpen ? ToDoItemStatus::OPEN : ToDoItemStatus::COMPLETE;
                     JsonDataStore::saveTodos($todos);
                     return;

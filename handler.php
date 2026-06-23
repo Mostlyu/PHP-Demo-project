@@ -5,9 +5,9 @@
 
 
     function handleDeleteTodo(): void {
-        $index = (int) ($_POST['index'] ?? 0);
-        deleteTodo($index);
-        header('Location: index.php');
+        $id = (int) ($_POST['id'] ?? 0);
+        deleteTodo($id);
+        header('Location: id.php');
         exit;
         }
 
@@ -25,14 +25,13 @@
         }
         if (empty($errors)) {
             addTodo($title, $due_date, $description);
-            //header('Location: index.php');
             ;
         }
     }
 
     function handleToggleStatus(): void {
         $newStatus = ($_POST['current_status'] === 'open') ? false : true;
-        setStatus((int) $_POST['index'], $newStatus);
-        header('Location: index.php');
+        setStatus((int) $_POST['id'], $newStatus);
+        header('Location: id.php');
         exit;
     }
