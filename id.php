@@ -18,6 +18,11 @@
     }
     $todos = filterTodos($statusFilter);
 
+    $todosDueToday = dueTodayTodos();
+    if (isset($_GET['due_today'])) {
+        $todosDueToday = $_GET['due_today'];
+    }
+
     if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
         handleToggleStatus();
     }
@@ -76,6 +81,10 @@
             <form method="get" action="">
                         <input type="hidden" name="filter" value="open">
                         <button type="submit">Show Open</button>
+            </form>
+             <form method="get" action="">
+                        <input type="hidden" name="due_today">
+                        <button type="submit">Due Today</button>
             </form>
             <form method="get" action="">
                         <input type="hidden" name="filter" value="all">

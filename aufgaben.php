@@ -81,6 +81,20 @@
 
     }
 
+    function dueTodayTodos(): array {
+        $allTodoItems = JsonDataStore::loadTodos();
+        $dueTodayTodoItems = [];
+        // $now = new DateTime();
+
+
+        foreach ($allTodoItems as $due_today) {
+            if ($due_today->due_date == date('Y-m-d')) {
+                $dueTodayTodoItems[] = $due_today;
+            }
+        }
+        return $dueTodayTodoItems;
+    }
+
     /**
      * @param string $input The input string to validate as a date.
      * @return true if the input is a valid date in the format YYYY-MM-DD, false otherwise.
