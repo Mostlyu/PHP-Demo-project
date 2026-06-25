@@ -86,9 +86,8 @@
         $dueTodayTodoItems = [];
         // $now = new DateTime();
 
-
         foreach ($allTodoItems as $due_today) {
-            if ($due_today->due_date == date('Y-m-d')) {
+            if (date('Y-m-d') == substr($due_today->due_date, 0, 10)) {
                 $dueTodayTodoItems[] = $due_today;
             }
         }

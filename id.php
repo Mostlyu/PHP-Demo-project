@@ -6,6 +6,8 @@
     include 'handler.php';
     include 'header.php';
 
+    // var_dump(dueTodayTodos());
+
     $errors = [];
 
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
@@ -18,9 +20,8 @@
     }
     $todos = filterTodos($statusFilter);
 
-    $todosDueToday = dueTodayTodos();
     if (isset($_GET['due_today'])) {
-        $todosDueToday = $_GET['due_today'];
+         $todos = dueTodayTodos();
     }
 
     if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
@@ -83,7 +84,7 @@
                         <button type="submit">Show Open</button>
             </form>
              <form method="get" action="">
-                        <input type="hidden" name="due_today">
+                        <input type="hidden" name="due_today" value="1">
                         <button type="submit">Due Today</button>
             </form>
             <form method="get" action="">
