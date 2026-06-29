@@ -6,8 +6,6 @@
     include 'handler.php';
     include 'header.php';
 
-    // var_dump(dueTodayTodos());
-
     $errors = [];
 
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
@@ -50,6 +48,7 @@
     <meta charset="UTF-8">
     <title>TODO App</title>
     <link rel="stylesheet" href="style/style.css">
+
 </head>
 <body>
 
