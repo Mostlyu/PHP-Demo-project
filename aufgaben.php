@@ -4,46 +4,6 @@
     include 'ToDoItemStatus.php';
     require_once 'JsonDataStore.php';
 
-
-    // const TODO_FILE = 'todos.json';
-
-    // function loadTodos(): array {
-    //     if (!file_exists(TODO_FILE)) {
-    //         return [];
-    //     }
-    //     $contents = file_get_contents(TODO_FILE);
-    //     if ($contents === false) {
-    //         return [];
-    //     }
-
-    //     $rawToDos = json_decode($contents, true);
-    //     foreach ($rawToDos as $rawToDo) {
-    //         $todos[] = ToDoItem::fromArray($rawToDo);
-    //     }
-
-    //     if (json_last_error() !== JSON_ERROR_NONE) {
-    //         error_log("JSON decode error: " . json_last_error_msg());
-    //         return [];
-    //     }
-    //     return $todos ?? [];
-    // }
-
-    // function saveTodos(array $todos): bool{
-    //     if(file_put_contents(TODO_FILE, json_encode($todos, JSON_PRETTY_PRINT), LOCK_EX) === false) {
-    //         error_log('Failed to save todos');
-    //         return false;
-    //     }
-    //     return true;
-    // }
-
-
-    function statusToString(bool $isOpen): string {
-        if ($isOpen) {
-            return 'open';
-        }
-        return 'complete';
-    }
-
     function addTodo(
         string $title,
         string $dueDate,
@@ -60,18 +20,18 @@
             $status
         );
 
-        echo "item created";
+        $newTodo->id = JsonDataStore::getNextId();
 
         $todos[] = $newTodo;
-        // var_dump($newTodo);
+
         JsonDataStore::saveTodos($todos);
     }
 
-    function deleteTodo(int $index) {
+    function deleteTodo(int $id) {
         $todos = JsonDataStore::loadTodos();
         $arr = [];
         foreach ($todos as $todo) {
-            if ($todo['index'] != $index) {
+            if ($todo-> id != $id) {
                 $arr[] = $todo;
             }
         }
@@ -94,24 +54,36 @@
         }
 
         foreach ($allTodoItems as $todo) {
-            if ($todo['status'] == $statusFilter) {
+            if ($todo->status->value == $statusFilter) {
                 $filteredTodoItems[] = $todo;
             }
         }
         return $filteredTodoItems;
     }
 
-    function setStatus(int $index, bool $isOpen) {
+    function editTodo(string $title, int $id, string $due_date, string $description) {
+        $todos = JsonDataStore::loadTodos();
+
+        foreach ($todos as $key => $todo) {
+            if ($todo->id == $id) {
+                $todos[$key]->title = $title;
+                $todos[$key]->due_date = $due_date;
+                $todos[$key]->description = $description;
+                JsonDataStore::saveTodos($todos);
+                return;
+            }
+        }
+    }
+
+    function setStatus(int $id, bool $isOpen) {
         $todos = JsonDataStore::loadTodos();
 
         try
         {
-            foreach ($todos as $key => $todo) {
-                if ($todo['index'] == $index) {
 
-
-
-                    $todos[$key]['status'] = statusToString($isOpen);
+            foreach ($todos as $todo) {
+                if ($todo->id == $id) {
+                    $todo->status = $isOpen ? ToDoItemStatus::OPEN : ToDoItemStatus::COMPLETE;
                     JsonDataStore::saveTodos($todos);
                     return;
                 }
@@ -121,6 +93,19 @@
             return;
         }
 
+    }
+
+    function dueTodayTodos(): array {
+        $allTodoItems = JsonDataStore::loadTodos();
+        $dueTodayTodoItems = [];
+        // $now = new DateTime();
+
+        foreach ($allTodoItems as $due_today) {
+            if (date('Y-m-d') == substr($due_today->due_date, 0, 10)) {
+                $dueTodayTodoItems[] = $due_today;
+            }
+        }
+        return $dueTodayTodoItems;
     }
 
     /**

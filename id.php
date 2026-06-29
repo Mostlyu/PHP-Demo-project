@@ -6,6 +6,8 @@
     include 'handler.php';
     include 'header.php';
 
+    // var_dump(dueTodayTodos());
+
     $errors = [];
 
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
@@ -18,14 +20,26 @@
     }
     $todos = filterTodos($statusFilter);
 
+    if (isset($_GET['due_today'])) {
+         $todos = dueTodayTodos();
+    }
+
     if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
         handleToggleStatus();
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
         handleCreateTodo();
-        header("Location: index.php");
+        header("Location: id.php");
         exit;
+    }
+
+       if (isset($_POST['action']) && $_POST['action'] === 'edit') {
+        foreach ($todos as $todo) {
+            if ($todo->id == $_POST['id']) {
+                $editingTodo = $todo;
+            }
+        }
     }
 
 ?>
@@ -59,14 +73,14 @@
         <input type="datetime-local" name="due_date" value="<?= htmlspecialchars($_POST['due_date'] ?? '') ?>" placeholder="The due date of your ToDo?" required>
 
         <h4>Description</h4>
-        <textarea name="description" class="description" placeholder="Description of your ToDo?" required></textarea>
+        <textarea name="description" value="<?= htmlspecialchars($_POST['description'] ?? '') ?>" class="description" placeholder="Description of your ToDo?" required></textarea>
 
         <button type="submit" class="submit-button">Add ToDo</button>
     </form>
     </div>
 
-    <h2>My TODOs</h2>
 
+    <h2>My TODOs</h2>
 
     <form method="get" action="">
         <div class="action-filters">
@@ -77,13 +91,14 @@
                         <input type="hidden" name="filter" value="open">
                         <button type="submit">Show Open</button>
             </form>
+             <form method="get" action="">
+                        <input type="hidden" name="due_today" value="1">
+                        <button type="submit">Due Today</button>
+            </form>
             <form method="get" action="">
                         <input type="hidden" name="filter" value="all">
                         <button type="submit">Show All</button>
             </form>
-            <form method="post" action="">
-                        <input type="hidden" name="action" value="">
-                        <button type="submit">Clear All</button>
         </div>
     </form>
 
@@ -102,21 +117,28 @@
     <tbody>
         <?php foreach ($todos as $todo): ?>
         <tr>
-            <td><?= htmlspecialchars($todo->index) ?></td>
+            <td><?= htmlspecialchars($todo->id) ?></td>
             <td><?= htmlspecialchars($todo->title) ?></td>
             <td><?= htmlspecialchars($todo->description) ?></td>
-            <td><?= htmlspecialchars($todo->due_date) ?></td>
+            <td><?= htmlspecialchars(str_replace('T', ' ', $todo->due_date)) ?></td>
             <td><?= htmlspecialchars($todo->created_at) ?></td>
             <td><?= htmlspecialchars($todo->status->value) ?></td>
             <td>
+                 <form method="post" action="">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" value="<?= $todo->id ?>">
+                    <a href="edit.php?id=<?= $todo->id ?>">
+                        <button type="button">Edit</button>
+                    </a>
+                </form>
                 <form method="post" action="">
                     <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="index" value="<?= $todo->index ?>">
+                    <input type="hidden" name="id" value="<?= $todo->id ?>">
                     <button type="submit">Delete</button>
                 </form>
                 <form method="post" action="">
                     <input type="hidden" name="action" value="toggle_status">
-                    <input type="hidden" name="index" value="<?= $todo->index ?>">
+                    <input type="hidden" name="id" value="<?= $todo->id ?>">
                     <input type="hidden" name="current_status" value="<?= $todo->status->value ?>">
                     <button type="submit"><?= $todo->status === ToDoItemStatus::OPEN ? 'Mark Complete' : 'Mark Open' ?></button>
                 </form>
