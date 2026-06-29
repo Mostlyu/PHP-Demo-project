@@ -35,3 +35,22 @@
         header('Location: id.php');
         exit;
     }
+
+    function handleEditTodo(): void {
+        $id = (int) ($_POST['id'] ?? 0);
+        $title = trim($_POST['title'] ?? '');
+        $due_date = $_POST['due_date'] ?? '';
+        $description = trim($_POST['description'] ?? '');
+        $errors = [];
+
+        if ($title === '') {
+            $errors[] = 'Title darf nicht leer sein.';
+        }
+        if ($description === '') {
+            $errors[] = 'Beschreibung darf nicht leer sein.';
+        }
+        if (empty($errors)) {
+            editTodo($title, $id, $due_date, $description);
+            header('Location: id.php');
+        }
+    }

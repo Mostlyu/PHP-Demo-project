@@ -34,6 +34,14 @@
         exit;
     }
 
+       if (isset($_POST['action']) && $_POST['action'] === 'edit') {
+        foreach ($todos as $todo) {
+            if ($todo->id == $_POST['id']) {
+                $editingTodo = $todo;
+            }
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -71,8 +79,8 @@
     </form>
     </div>
 
-    <h2>My TODOs</h2>
 
+    <h2>My TODOs</h2>
 
     <form method="get" action="">
         <div class="action-filters">
@@ -112,10 +120,17 @@
             <td><?= htmlspecialchars($todo->id) ?></td>
             <td><?= htmlspecialchars($todo->title) ?></td>
             <td><?= htmlspecialchars($todo->description) ?></td>
-            <td><?= htmlspecialchars($todo->due_date) ?></td>
+            <td><?= htmlspecialchars(str_replace('T', ' ', $todo->due_date)) ?></td>
             <td><?= htmlspecialchars($todo->created_at) ?></td>
             <td><?= htmlspecialchars($todo->status->value) ?></td>
             <td>
+                 <form method="post" action="">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" value="<?= $todo->id ?>">
+                    <a href="edit.php?id=<?= $todo->id ?>">
+                        <button type="button">Edit</button>
+                    </a>
+                </form>
                 <form method="post" action="">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="id" value="<?= $todo->id ?>">

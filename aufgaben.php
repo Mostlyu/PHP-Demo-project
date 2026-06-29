@@ -61,6 +61,20 @@
         return $filteredTodoItems;
     }
 
+    function editTodo(string $title, int $id, string $due_date, string $description) {
+        $todos = JsonDataStore::loadTodos();
+
+        foreach ($todos as $key => $todo) {
+            if ($todo->id == $id) {
+                $todos[$key]->title = $title;
+                $todos[$key]->due_date = $due_date;
+                $todos[$key]->description = $description;
+                JsonDataStore::saveTodos($todos);
+                return;
+            }
+        }
+    }
+
     function setStatus(int $id, bool $isOpen) {
         $todos = JsonDataStore::loadTodos();
 
@@ -72,8 +86,8 @@
                     $todo->status = $isOpen ? ToDoItemStatus::OPEN : ToDoItemStatus::COMPLETE;
                     JsonDataStore::saveTodos($todos);
                     return;
-    }
-}
+                }
+            }
         } catch (Exception $e) {
             error_log($e->getMessage());
             return;
