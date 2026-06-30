@@ -65,14 +65,15 @@
     <div class="todo-form">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <input type="hidden" name="action" value="add">
-        <h4>Title</h4>
+
+        <label for="title">Title</label>
         <input name="title" value="<?= htmlspecialchars($_POST['title'] ?? '') ?>" placeholder="Title of your ToDo?" required>
-
-        <h4>Due Date</h4>
+        <br></br>
+        <label for="description">Description</label>
+        <textarea name="description" class="description" placeholder="Description of your ToDo?" required></textarea>
+        <br></br>
+        <label for="due_date">Due Date</label>
         <input type="datetime-local" name="due_date" value="<?= htmlspecialchars($_POST['due_date'] ?? '') ?>" placeholder="The due date of your ToDo?" required>
-
-        <h4>Description</h4>
-        <textarea name="description" value="<?= htmlspecialchars($_POST['description'] ?? '') ?>" class="description" placeholder="Description of your ToDo?" required></textarea>
 
         <button type="submit" class="submit-button">Add ToDo</button>
     </form>
@@ -81,8 +82,8 @@
 
     <h2>My TODOs</h2>
 
-    <form method="get" action="">
         <div class="action-filters">
+            <form method="get" action="">
                     <input type="hidden" name="filter" value="complete">
                     <button type="submit">Show Complete</button>
             </form>
@@ -99,7 +100,6 @@
                         <button type="submit">Show All</button>
             </form>
         </div>
-    </form>
 
 <table>
     <thead>
@@ -125,7 +125,6 @@
             <td>
                  <form method="post" action="">
                     <input type="hidden" name="action" value="edit">
-                    <input type="hidden" name="id" value="<?= $todo->id ?>">
                     <a href="edit.php?id=<?= $todo->id ?>">
                         <button type="button">Edit</button>
                     </a>
